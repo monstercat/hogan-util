@@ -9,7 +9,7 @@ var util = {
       for (var i=0; i<tree.length; i++) {
         var branch = tree[i]
 
-        if (branch.tag == '_v' && !vars[branch.n]) {
+        if (branch.tag == '_v' && vars[branch.n] == void 0) {
           return Error('The "' + (root || "root") +
             '" branch is missing variable named "' +
             branch.n + '" in an item.')
@@ -24,6 +24,32 @@ var util = {
   },
   tree: function tree (text) {
     return hogan.parse(hogan.scan(text))
+  },
+  treeToObject: function treeToObject (tree) {
+    var obj = {}
+
+    for (var i=0; i < tree.length; i++) {
+      var branch = tree[i];
+      if (branch.tag == '_v') obj[branch.n] = ""
+      if (branch.tag == '#') obj[branch.n] = util.treeToObject(branch.nodes)
+    }
+
+    var keys = Object.keys(obj)
+
+    if (keys.length == 0) return false
+
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i]
+      var value = obj[key]
+
+      if (typeof value != 'object') continue
+
+      var subkeys = Object.keys(value)
+      if (subkeys.length == 1 && subkeys[0] == key)
+        obj[key] = value[subkeys[0]]
+    }
+
+    return obj
   },
   isRenderable: function isRenderable (text, variables) {
     return util.validate(util.tree(text), variables)
