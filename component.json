@@ -1,0 +1,17 @@
+{
+  "name": "hogan-util",
+  "repo": "monstercat/hogan-util",
+  "description": "An assist utility to hogan.",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "twitter/hogan.js": "3.0.2"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "local": [],
+  "scripts": [
+    "index.js"
+  ]
+}
