@@ -30,23 +30,31 @@ var util = {
 
     for (var i=0; i < tree.length; i++) {
       var branch = tree[i];
+      // Handle case where displaying value only.
       if (branch.tag == '_v') obj[branch.n] = ""
-      if (branch.tag == '#') obj[branch.n] = util.treeToObject(branch.nodes)
+
+      // Handle case where we are displaying listed nested values.
+      if (branch.tag == '#') obj[branch.n] = [util.treeToObject(branch.nodes)]
     }
 
     var keys = Object.keys(obj)
-
-    if (keys.length == 0) return false
 
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i]
       var value = obj[key]
 
-      if (typeof value != 'object') continue
+      if (!(value instanceof Array) || value.length == 0) continue
 
-      var subkeys = Object.keys(value)
+      var first = value[0]
+      var subkeys = Object.keys(first)
+
+      // Handle case where using variable as boolean value only.
+      if (subkeys.length == 0)
+        obj[key] = false
+
+      // Handle case where checking if variable exists to display it.
       if (subkeys.length == 1 && subkeys[0] == key)
-        obj[key] = value[subkeys[0]]
+        obj[key] = first[subkeys[0]]
     }
 
     return obj
