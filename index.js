@@ -22,9 +22,11 @@ var util = {
       }
     }
   },
+
   tree: function tree (text) {
     return hogan.parse(hogan.scan(text))
   },
+
   treeToObject: function treeToObject (tree) {
     var obj = {}
 
@@ -59,13 +61,55 @@ var util = {
 
     return obj
   },
+
   isRenderable: function isRenderable (text, variables) {
     return util.validate(util.tree(text), variables)
   },
+
   render: function render (text, variables) {
     return hogan.compile(text).render(variables)
   },
+
+  highlight: function highlight (text, open, close) {
+    if (!text) throw Error('No text provided.')
+    if (!open) throw Error('No open tag provided.')
+    if (close == undefined) close = open
+
+    return highlightBranches(util.tree(text), {
+      text: text.toString(),
+      open: open,
+      close: close
+    })
+  },
+
   hogan: hogan
+}
+
+function insertChar(str, character, position) {
+  return str.substr(0, position) + character + str.substr(position)
+}
+
+function highlightBranches (branches, opts) {
+  if (opts.offset == undefined || isNaN(opts.offset)) {
+    opts.offset = 0
+  }
+
+  branches.forEach(function (branch) {
+    if (branch.tag == '_v') {
+      var str = opts.text
+      var offset = opts.offset
+      str = insertChar(str, opts.close, offset + branch.i)
+      str = insertChar(str, opts.open, offset +
+        branch.i - branch.n.length - branch.otag.length - branch.ctag.length)
+      opts.offset = offset + opts.open.length + opts.close.length
+      opts.text = str
+    }
+    else if (branch.tag == '#' && branch.nodes) {
+      highlightBranches(branch.nodes, opts)
+    }
+  })
+
+  return opts.text
 }
 
 module.exports = util
