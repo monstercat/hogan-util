@@ -71,8 +71,8 @@ var util = {
   },
 
   highlight: function highlight (text, open, close) {
-    if (!text) throw Error('No text provided.')
-    if (!open) throw Error('No open tag provided.')
+    if (text == undefined) throw Error('No text provided.')
+    if (open == undefined) throw Error('No open tag provided.')
     if (close == undefined) close = open
 
     return highlightBranches(util.tree(text), {
