@@ -2,10 +2,11 @@
   "name": "hogan-util",
   "repo": "monstercat/hogan-util",
   "description": "An assist utility to hogan.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": [],
   "dependencies": {
-    "twitter/hogan.js": "3.0.2"
+    "twitter/hogan.js": "3.0.2",
+    "tm-components/date-time": "0.0.6"
   },
   "development": {},
   "license": "MIT",

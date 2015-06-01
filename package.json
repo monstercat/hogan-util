@@ -1,6 +1,6 @@
 {
   "name": "hogan-util",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An assist utility to hogan.",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/monstercat/hogan-util",
   "dependencies": {
+    "date-time": "git://github.com/tm-components/date-time.git",
     "hogan.js": "3.0.2"
   }
 }

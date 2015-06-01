@@ -1,4 +1,5 @@
 var hogan = require('hogan.js')
+var format = require('date-time').format
 
 var util = {
   validate: function validate (tree, variables, root) {
@@ -66,7 +67,10 @@ var util = {
     return util.validate(util.tree(text), variables)
   },
 
-  render: function render (text, variables) {
+  render: function render (text, variables, opts) {
+    if (opts && opts.transforms && typeof opts.transforms == 'object')
+      variables = transformObject(variables, opts.transforms)
+
     return hogan.compile(text).render(variables)
   },
 
@@ -83,6 +87,29 @@ var util = {
   },
 
   hogan: hogan
+}
+
+function transformValue (value, opts) {
+  if (value instanceof Array) return transformArray(value, opts)
+  if (value instanceof Date && opts.dateFormat)
+    return format(opts.dateFormat, value)
+  if (typeof value == 'object')
+    return transformObject(value, opts)
+  return value
+}
+
+function transformArray (arr, opts) {
+  return arr.map(function (item) {
+    return transformValue(item, opts)
+  })
+}
+
+function transformObject (obj, opts) {
+  var tmp = {}
+  Object.keys(obj).forEach(function (key) {
+    tmp[key] = transformValue(obj[key], opts)
+  })
+  return tmp
 }
 
 function insertChar(str, character, position) {

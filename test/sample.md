@@ -1,5 +1,7 @@
 # Hi there!
 
+{{date}}
+
 Well I was wondering if you could help me with something...
 
 {{#yea}}
