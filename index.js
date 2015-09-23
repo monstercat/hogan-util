@@ -64,7 +64,14 @@ var util = {
   },
 
   isRenderable: function isRenderable (text, variables) {
-    return util.validate(util.tree(text), variables)
+    var tree
+    try {
+      tree = util.tree(text)
+    }
+    catch (e) {
+      return e
+    }
+    return util.validate(tree, variables)
   },
 
   render: function render (text, variables, opts) {

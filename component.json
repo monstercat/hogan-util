@@ -2,7 +2,7 @@
   "name": "hogan-util",
   "repo": "monstercat/hogan-util",
   "description": "An assist utility to hogan.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [],
   "dependencies": {
     "twitter/hogan.js": "*",
