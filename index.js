@@ -9,8 +9,7 @@ var util = {
       var vars = variables[n]
       for (var i=0; i<tree.length; i++) {
         var branch = tree[i]
-
-        if (branch.tag == '_v' && vars[branch.n] == void 0) {
+        if (branch.tag == '_v' && branch.n !== '.' && vars[branch.n] == void 0) {
           return Error('The "' + (root || "root") +
             '" branch is missing variable named "' +
             branch.n + '" in an item.')
