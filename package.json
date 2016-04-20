@@ -1,6 +1,6 @@
 {
   "name": "hogan-util",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "An assist utility to hogan.",
   "main": "index.js",
   "scripts": {
